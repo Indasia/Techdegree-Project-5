@@ -6,22 +6,22 @@ $.ajax({
     url: "https://randomuser.me/api/?results=12&nat=us",
     dataType: "json",
     success: function (data) {
-    // console.log to see the data that is returned  
-    console.log(data);
+        // console.log to see the data that is returned  
+        console.log(data);
 
-    // search HTML markup
-    const form = `<form action="#" method="get">
+        // search HTML markup
+        const form = `<form action="#" method="get">
                         <input type="search" id="search-input" class="search-input" placeholder="Search...">
                         <input type="submit" value="&#x1F50D;" id="search-submit" class="search-submit">
                 </form>`;
         
-    // append the search box and submit button to the page      
-    document.querySelector('.search-container').innerHTML = form;
+        // append the search box and submit button to the page      
+        document.querySelector('.search-container').innerHTML = form;
 
-    // loop through 12 random users      
-    for (let i= 0; i < data.results.length; i++){
-        // gallery HTML markup
-        const gallery = `<div class="card">
+        // loop through 12 random users      
+        for (let i = 0; i < data.results.length; i++) {
+            // gallery HTML markup
+            const gallery = `<div class="card">
                             <div class="card-img-container">
                                 <img class="card-img" src="${data.results[i].picture.large}" alt="profile picture">
                             </div>
@@ -32,9 +32,9 @@ $.ajax({
                             </div>
                         </div >`;
         
-        // append each gallery card to the page
-        document.querySelector("#gallery").innerHTML += gallery;            
-        }   
+            // append each gallery card to the page
+            document.querySelector("#gallery").innerHTML += gallery;
+        }
         
         // when anything that has the class of "card" is clicked, show the appropriate information
         $(".card").on("click", function () {
@@ -52,13 +52,19 @@ $.ajax({
                                         <hr>
                                         <p class="modal-text">${data.results[cardIndex].cell}</p>
                                         <p class="modal-text cap">${data.results[cardIndex].location.street}, ${data.results[cardIndex].location.state}, ${data.results[cardIndex].nat} ${data.results[cardIndex].location.postcode}</p>
-                                        <p class="modal-text">Birthday: ${data.results[cardIndex].dob.date.slice(0,10)}</p>
+                                        <p class="modal-text">Birthday: ${data.results[cardIndex].dob.date.slice(0, 10)}</p>
                                     </div>
                                 </div>
                             </div>`;
             // append the modal the the body of the page
-            document.querySelector("body").innerHTML = modal;
-      })
+            document.querySelector("body").innerHTML += modal;
+
+            // close the modal when the X is clicked
+            $('.modal-close-btn').click(function () {
+                $('.modal-container').remove();
+                $('.modal').remove();
+            })
+            
+        })
     }
 });
-                
